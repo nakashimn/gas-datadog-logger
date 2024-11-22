@@ -1,0 +1,12 @@
+{
+	"name": "gas-template",
+	"dockerComposeFile": "../compose.yaml",
+	"service": "gas-template",
+	"workspaceFolder": "/workspace",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+			]
+		}
+	}
+}
