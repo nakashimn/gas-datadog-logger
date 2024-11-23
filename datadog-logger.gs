@@ -166,7 +166,7 @@ class DatadogLogger {
     };
 
     try {
-      const response = UrlFetchApp.fetch(url, options);
+      const response = UrlFetchApp.fetch(this.url, options);
       const responseCode = response.getResponseCode();
       if ((responseCode < 200) || (responseCode >= 400)) {
         throw(JSON.stringify({
