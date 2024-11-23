@@ -4,10 +4,10 @@
 
 ---
 
-### デプロイID
+### スクリプトID
 
 ```copy
-AKfycbzihT_Ev2TBJT9rzEl6SDQV5lw4noVOuDMIomVnpdaSdYB5UL2zQt5JcXB8k_diw2_-lg
+1u02W7_KhPNnzNpQV_UUvo_pSguangpsk99LooVgO3REkCb_1yQg4t1lc
 ```
 
 ---
