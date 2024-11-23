@@ -22,7 +22,7 @@ const scriptProperties = PropertiesService.getScriptProperties();
 const ddApiKey = scriptProperties.getProperty('DD-API-KEY');
 
 // 2. DatadogAPIKeyとtagを引数にDatadogLoggerをインスタンス化
-const ddLogger = new DatadogLogger(ddApiKey, tags={'version': '1.0.0'});
+const ddLogger = createDatadogLogger(ddApiKey, tags={'version': '1.0.0'});
 
 // [Example]
 

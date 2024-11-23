@@ -9,7 +9,7 @@
  * const ddApiKey = scriptProperties.getProperty('DD-API-KEY');
  *
  * // 2. DatadogAPIKeyとtagを引数にDatadogLoggerをインスタンス化
- * const ddLogger = new DatadogLogger(ddApiKey, tags={'version': '1.0.0'});
+ * const ddLogger = createDatadogLogger(ddApiKey, tags={'version': '1.0.0'});
  *
  * // [Example]
  *
@@ -19,6 +19,20 @@
  * // Contentに status:SUCCESSを追加し level:WARNING のログを送付する
  * ddLogger.debug('warning message.', extra={'status': 'SUCCESS'});
  */
+
+/**
+ * @function createDatadogLogger
+ * @param {string} ddApiKey DatadogAPIKey
+ * @param {Object} tags ログに付与するタグ {key: value, ... }
+ * @param {string} url='https://http-intake.logs.datadoghq.com/api/v2/logs' DatadogHTTPAPIのLogエンドポイント
+ * @param {string} logToConsole=true GoogleAppsScriptコンソールへの出力切替フラグ
+ * @return {Object} DatadogLoggerのインスタンス
+ * @description DatadogLoggerのファクトリメソッド
+ */
+function createDatadogLogger(ddApiKey, tags={}, url='https://http-intake.logs.datadoghq.com/api/v2/logs', logToConsole=true) {
+  return new DatadogLogger(ddApiKey, tags, url, logToConsole)
+}
+
 class DatadogLogger {
   /**
    * @class DatadogLogger
