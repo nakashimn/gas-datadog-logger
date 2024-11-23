@@ -8,6 +8,8 @@
 
 AKfycbzihT_Ev2TBJT9rzEl6SDQV5lw4noVOuDMIomVnpdaSdYB5UL2zQt5JcXB8k_diw2_-lg
 
+---
+
 ### 実装例
 
 ```
