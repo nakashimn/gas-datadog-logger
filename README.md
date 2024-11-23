@@ -6,17 +6,18 @@
 
 ### デプロイID
 
+```copy
 AKfycbzihT_Ev2TBJT9rzEl6SDQV5lw4noVOuDMIomVnpdaSdYB5UL2zQt5JcXB8k_diw2_-lg
+```
 
 ---
 
 ### 実装例
 
-```
+```javascript
 // [How to use]
 
-// 1. DatadogAPIKeyを取得
-//    (※スクリプトプロパティでの定義を推奨)
+// 1. DatadogAPIKeyを取得(※スクリプトプロパティでの定義を推奨)
 const scriptProperties = PropertiesService.getScriptProperties();
 const ddApiKey = scriptProperties.getProperty('DD-API-KEY');
 
