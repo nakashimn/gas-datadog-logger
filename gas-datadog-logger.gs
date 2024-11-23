@@ -1,22 +1,23 @@
 
 /**
  * @example
- * function handler() {
- *   // [How to use]
- *   // 1. DatadogAPIKeyを取得
- *   const scriptProperties = PropertiesService.getScriptProperties();
- *   const ddApiKey = scriptProperties.getProperty('DD-API-KEY');
+ * // [How to use]
  *
- *   // 2. DatadogAPIKeyとtagを引数にDatadogLoggerをインスタンス化
- *   const ddLogger = new DatadogLogger(ddApiKey, tags={'version': '1.0.0'});
+ * // 1. DatadogAPIKeyを取得
+ * //    (※スクリプトプロパティでの定義を推奨)
+ * const scriptProperties = PropertiesService.getScriptProperties();
+ * const ddApiKey = scriptProperties.getProperty('DD-API-KEY');
  *
- *   // [Example]
- *   // level:DEBUG のログを送付する
- *   ddLogger.debug('debug message.');
+ * // 2. DatadogAPIKeyとtagを引数にDatadogLoggerをインスタンス化
+ * const ddLogger = new DatadogLogger(ddApiKey, tags={'version': '1.0.0'});
  *
- *   // Contentに status:SUCCESSを追加し level:WARNING のログを送付する
- *   ddLogger.debug('warning message.', extra={'status': 'SUCCESS'});
- * }
+ * // [Example]
+ *
+ * // level:DEBUG のログを送付する
+ * ddLogger.debug('debug message.');
+ *
+ * // Contentに status:SUCCESSを追加し level:WARNING のログを送付する
+ * ddLogger.debug('warning message.', extra={'status': 'SUCCESS'});
  */
 class DatadogLogger {
   /**
