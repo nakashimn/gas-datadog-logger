@@ -23,13 +23,15 @@
 /**
  * @function createDatadogLogger
  * @param {string} ddApiKey DatadogAPIKey
+ * @param {string} scriptId=null 実行スクリプトのID
+ * @param {string} scriptName=null 実行スクリプトの名称
  * @param {Object} tags ログに付与するタグ {key: value, ... }
  * @param {string} url='https://http-intake.logs.datadoghq.com/api/v2/logs' DatadogHTTPAPIのLogエンドポイント
  * @param {string} logToConsole=true GoogleAppsScriptコンソールへの出力切替フラグ
  * @return {Object} DatadogLoggerのインスタンス
  * @description DatadogLoggerのファクトリメソッド
  */
-function createDatadogLogger(ddApiKey, tags={}, url='https://http-intake.logs.datadoghq.com/api/v2/logs', logToConsole=true) {
+function createDatadogLogger(ddApiKey, scriptId=null, scriptName=null, tags={}, url='https://http-intake.logs.datadoghq.com/api/v2/logs', logToConsole=true) {
   return new DatadogLogger(ddApiKey, tags, url, logToConsole)
 }
 
@@ -37,20 +39,24 @@ class DatadogLogger {
   /**
    * @class DatadogLogger
    * @param {string} ddApiKey DatadogAPIKey
+   * @param {string} scriptId=null 実行スクリプトのID
+   * @param {string} scriptName=null 実行スクリプトの名称
    * @param {Object} tags ログに付与するタグ {key: value, ... }
    * @param {string} url='https://http-intake.logs.datadoghq.com/api/v2/logs' DatadogHTTPAPIのLogエンドポイント
    * @param {string} logToConsole=true GoogleAppsScriptコンソールへの出力切替フラグ
    */
-  constructor(ddApiKey, tags={}, url='https://http-intake.logs.datadoghq.com/api/v2/logs', logToConsole=true) {
+  constructor(ddApiKey, scriptId=null, scriptName=null, tags={}, url='https://http-intake.logs.datadoghq.com/api/v2/logs', logToConsole=true) {
     this.ddApiKey = ddApiKey;
+    this.scriptId = scriptId;
+    this.scriptName = scriptName;
     this.url = url;
     this.logToConsole = logToConsole;
     this.userAddress = Session.getActiveUser().getEmail();
     this.payloadTemplate = {
       'ddsource': 'google-apps-script',
       'ddtags': this._parseTags(tags),
-      'hostname': ScriptApp.getScriptId(),
-      'service': this._getScriptName()
+      'hostname': this.scriptId,
+      'service': this.scriptName
     };
   }
 
@@ -137,6 +143,8 @@ class DatadogLogger {
       ...{
         'level': level,
         'processId': this._generateRandomId(16),
+        'scriptId': this.scriptId,
+        'scriptName': this.scriptName,
         'timestamp': this._getTimestamp(),
         'userAddress': this.userAddress,
         'message': message
@@ -186,17 +194,6 @@ class DatadogLogger {
    */
   _parseTags(tags) {
     return Object.entries(tags).map(([key, value]) => `${key}:${value}`).join(", ");
-  }
-
-  /**
-   * @function _getScriptName
-   * @return {string} スクリプト名
-   * @description Driveへのアクセス権限が必要 (実行時に許可ウィンドウが開く)
-   */
-  _getScriptName() {
-    const scriptId = ScriptApp.getScriptId();
-    const file = DriveApp.getFileById(scriptId);
-    return file.getName().replace(/\s+/g, '');
   }
 
   /**
