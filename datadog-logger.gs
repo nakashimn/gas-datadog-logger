@@ -54,7 +54,7 @@ class DatadogLogger {
     this.userAddress = Session.getActiveUser().getEmail();
     this.payloadTemplate = {
       'ddsource': 'google-apps-script',
-      'ddtags': this._parseTags(tags),
+      'ddtags': this.parseTags_(tags),
       'hostname': this.scriptId,
       'service': this.scriptName
     };
@@ -66,11 +66,11 @@ class DatadogLogger {
    * @param {Object} extra={} 追加のキーバリューペア {key: value, ... }
    */
   information(message, extra={}) {
-    const ddPayload = this._createPayload('INFO', message, extra);
+    const ddPayload = this.createPayload_('INFO', message, extra);
     if (this.logToConsole) {
       Logger.log(ddPayload);
     }
-    this._sendLog(ddPayload);
+    this.sendLog_(ddPayload);
   }
 
   /**
@@ -89,11 +89,11 @@ class DatadogLogger {
    * @param {Object} extra={} 追加のキーバリューペア {key: value, ... }
    */
   debug(message, extra={}) {
-    const ddPayload = this._createPayload('DEBUG', message, extra);
+    const ddPayload = this.createPayload_('DEBUG', message, extra);
     if (this.logToConsole) {
       Logger.log(ddPayload);
     }
-    this._sendLog(ddPayload);
+    this.sendLog_(ddPayload);
   }
 
   /**
@@ -102,11 +102,11 @@ class DatadogLogger {
    * @param {Object} extra={} 追加のキーバリューペア {key: value, ... }
    */
   warning(message, extra={}) {
-    const ddPayload = this._createPayload('WARNING', message, extra);
+    const ddPayload = this.createPayload_('WARNING', message, extra);
     if (this.logToConsole) {
       Logger.log(ddPayload);
     }
-    this._sendLog(ddPayload);
+    this.sendLog_(ddPayload);
   }
 
   /**
@@ -125,27 +125,27 @@ class DatadogLogger {
    * @param {Object} extra={} 追加のキーバリューペア {key: value, ... }
    */
   error(message, extra={}) {
-    const ddPayload = this._createPayload('ERROR', message, extra);
+    const ddPayload = this.createPayload_('ERROR', message, extra);
     if (this.logToConsole) {
       Logger.log(ddPayload);
     }
-    this._sendLog(ddPayload);
+    this.sendLog_(ddPayload);
   }
 
   /**
-   * @function _createPayload
+   * @function createPayload_
    * @param {string} level ログレベル
    * @param {string} message ログメッセージ
    * @param {Object} extra={} 追加のキーバリューペア {key: value, ... }
    */
-  _createPayload(level, message, extra) {
+  createPayload_(level, message, extra) {
     const ddMessage = {
       ...{
         'level': level,
-        'processId': this._generateRandomId(16),
+        'processId': this.generateRandomId_(16),
         'scriptId': this.scriptId,
         'scriptName': this.scriptName,
-        'timestamp': this._getTimestamp(),
+        'timestamp': this.getTimestamp_(),
         'userAddress': this.userAddress,
         'message': message
       },
@@ -159,10 +159,10 @@ class DatadogLogger {
   }
 
   /**
-   * @function _sendLog
+   * @function sendLog_
    * @param {Object} ddPayload リクエストボディ
    */
-  _sendLog(ddPayload) {
+  sendLog_(ddPayload) {
     const options = {
       'method': 'post',
       'headers': {
@@ -188,20 +188,20 @@ class DatadogLogger {
   }
 
   /**
-   * @function _parseTags
+   * @function parseTags_
    * @param {Object} tags ログに付与するタグ {key: value, ... }
    * @return {string} 文字列にパースされたタグ 'key1:value1, key2:value2, ...'
    */
-  _parseTags(tags) {
+  parseTags_(tags) {
     return Object.entries(tags).map(([key, value]) => `${key}:${value}`).join(", ");
   }
 
   /**
-   * @function _getTimestamp
+   * @function getTimestamp_
    * @return {string} タイムスタンプ(UTC)
    * @description 'yyyy-MM-ddTHH:mm:ssZ' ISO8601 Extended Date/Time Formatに従う
    */
-  _getTimestamp() {
+  getTimestamp_() {
     const currentTimestamp = new Date();
     const currentDate = Utilities.formatDate(currentTimestamp, 'UTC', 'yyyy-MM-dd');
     const currentTime = Utilities.formatDate(currentTimestamp, 'UTC', 'HH:mm:ss');
@@ -209,12 +209,12 @@ class DatadogLogger {
   }
 
   /**
-   * @function _generateRandomId
+   * @function generateRandomId_
    * @param {number} length ID長
    * @return {string} ランダムID
    * @description [0-9][A-Z][a-z]からランダムIDを生成する
    */
-  _generateRandomId(length=16) {
+  generateRandomId_(length=16) {
     const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
     var randomId = '';
