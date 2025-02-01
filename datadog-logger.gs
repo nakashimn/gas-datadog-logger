@@ -145,7 +145,7 @@ class DatadogLogger {
   createPayload_(level, message, extra) {
     const ddMessage = {
       ...{
-        'level': level,
+        'status': level,
         'processId': this.generateRandomId_(16),
         'scriptId': this.scriptId,
         'scriptName': this.scriptName,
