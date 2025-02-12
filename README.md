@@ -2,9 +2,13 @@
 
 [GoogleAppsScript](https://script.google.com/home)から[DatadogHTTPAPI](https://docs.datadoghq.com/ja/api/latest/logs/)へログを送付するロガー
 
+latest version: 5
+
 ---
 
 ### スクリプトID
+
+GoogleAppsScriptライブラリID
 
 ```copy
 1u02W7_KhPNnzNpQV_UUvo_pSguangpsk99LooVgO3REkCb_1yQg4t1lc
